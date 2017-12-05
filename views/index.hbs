@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Project 1 - Philippe</title>
+</head>
+<body>
+
+<h2>Project #1 : Ball Game</h2>
+
+<canvas id="gameCanvas" width="720" height="500"></canvas>
+
+<p id="scoreboard"></p>
+
+<script>
+    var canvas = document.getElementById("gameCanvas");
+    var ctx = canvas.getContext("2d");
+    var ballRadius = 10;
+    var x = canvas.width/2;
+    var y = canvas.height-30;
+    var dx = 3;
+    var dy = -3;
+
+    var score = 0;
+
+    var px = canvas.width/2;
+    var py = canvas.height/2;
+
+    var keyW = false;
+    var keyA = false;
+    var keyS = false;
+    var keyD = false;
+
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+
+    function keyDownHandler(e) {
+        if(e.keyCode == 87) {
+            keyW = true;
+        }
+        if(e.keyCode == 65) {
+            keyA = true;
+        }
+        if(e.keyCode == 83) {
+            keyS = true;
+        }
+        if(e.keyCode == 68) {
+            keyD = true;
+        }
+    }
+
+    function keyUpHandler(e) {
+        if(e.keyCode == 87) {
+            keyW = false;
+        }
+        if(e.keyCode == 65) {
+            keyA = false;
+        }
+        if(e.keyCode == 83) {
+            keyS = false;
+        }
+        if(e.keyCode == 68) {
+            keyD = false;
+        }
+    }
+
+    function drawPlayer() {
+        ctx.beginPath();
+        ctx.arc(px,py, 30, 0 , Math.PI*2);
+        ctx.fillStyle = "#FA5858";
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function drawBall() {
+        ctx.beginPath();
+        ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBall();
+        drawPlayer();
+
+        if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+            dx = -dx;
+        }
+        if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+            dy = -dy;
+        }
+        else if(Math.abs(x - px) <= 35 && Math.abs(y - py) <= 35) {
+            alert("GAME OVER");
+            document.location.reload();
+        }
+
+        if(keyD && px < canvas.width-30) {
+            px += 1;
+        }
+        if(keyA && px > 30) {
+            px -= 1;
+        }
+
+        if(keyW && py > 30) {
+            py -= 1;
+        }
+
+        if(keyS && py < canvas.height-30) {
+            py += 1;
+        }
+
+        x += dx;
+        y += dy;
+
+        if(score < 10000001) {
+            score += 1;
+
+            document.getElementById("scoreboard").innerHTML = "Score: " + score;
+        }
+    }
+
+    setInterval(draw, 5);
+
+</script>
+
+</body>
+</html>
