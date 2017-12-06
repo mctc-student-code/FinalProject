@@ -2,7 +2,7 @@
   <configuration default="false" name="bin\www" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" path-to-js-file="bin/www" working-dir="$PROJECT_DIR$">
     <envs>
       <env name="DEBUG" value="FinalProject:*" />
-      <env name="MONGO_URL" value="mongodb://dbUser1:#dBoyrV&amp;2560@ds033186.mlab.com:33186/finalpr0jct_phil" />
+      <env name="MONGO_URL" value="mongodb://dbUser1:#dBoyrV2560@ds033186.mlab.com:33186/finalpr0jct_phil" />
     </envs>
     <browser url="http://localhost:3000/" />
     <EXTENSION ID="com.jetbrains.nodejs.remote.docker.NodeJSDockerRunConfigurationExtension">
