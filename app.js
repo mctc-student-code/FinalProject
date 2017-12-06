@@ -2,13 +2,27 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+var MongoClient = require('mongodb').MongoClient;
+
+var db_url = process.env.MONGO_URL;
+
+//Connect to mongoose, log success or error
+mongoose.promise = global.Promise;
+mongoose.connect(db_url, { useMongoClient: true })
+    .then( () => { console.log('Connected to MongoDB') } )
+    .catch( (err) => { console.log('Error Connecting to MongoDB', err); });
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+console.log('db_url:', db_url);
+console.log('>>', process.env.MONGO_URL);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
