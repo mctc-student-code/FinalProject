@@ -1,6 +1,7 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: dimgray;
 }
 
 a {
@@ -13,8 +14,11 @@ canvas { background: darkslateblue; display: block; margin: 0 auto; }
 
 h2 {
   text-align: center;
+  color: ghostwhite;
 }
 
 #scoreboard {
   text-align: center;
+  padding-top: 20px;
+  color: tomato;
 }
