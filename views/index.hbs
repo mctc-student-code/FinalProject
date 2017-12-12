@@ -7,20 +7,36 @@
 </head>
 <body>
 
-<h2>Project #1 : Ball Game</h2>
+<h2>Final Project</h2>
 
 <canvas id="gameCanvas" width="720" height="500"></canvas>
 
 <p id="scoreboard"></p>
 
 <script>
+
+    //function to deal with canvas anti-aliasing
+    function setpixelated(context) {
+        context['imageSmoothingEnabled'] = false;       /* standard */
+        context['mozImageSmoothingEnabled'] = false;    /* Firefox */
+        context['oImageSmoothingEnabled'] = false;      /* Opera */
+        context['webkitImageSmoothingEnabled'] = false; /* Safari */
+        context['msImageSmoothingEnabled'] = false;     /* IE */
+    }
+
+    //Set Variables
     var canvas = document.getElementById("gameCanvas");
     var ctx = canvas.getContext("2d");
+    setpixelated(ctx);
+
+    var gameOver = false;
+    var animTimer = 0;
+
     var ballRadius = 10;
     var x = canvas.width/2;
     var y = canvas.height-30;
-    var dx = 3;
-    var dy = -3;
+    var dx = -3;
+    var dy = 3;
 
     var score = 0;
 
@@ -32,9 +48,20 @@
     var keyS = false;
     var keyD = false;
 
+    var ballShoot = false;
+
+    //create texture image objects
+    var pDefault = new Image();
+    pDefault.src = "/images/textures.png";
+
+
+
+
+    //Keyboard Event Handlers
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
 
+    //If key is pressed, update boolean variable
     function keyDownHandler(e) {
         if(e.keyCode == 87) {
             keyW = true;
@@ -48,8 +75,17 @@
         if(e.keyCode == 68) {
             keyD = true;
         }
+        if(e.keyCode == 32) {
+            if( ballShoot === false) {
+                ballShoot = true;
+            }
+            else if( ballShoot === true) {
+                ballShoot = false;
+            }
+        }
     }
 
+    //If key is no longer pressed, update boolean variable again
     function keyUpHandler(e) {
         if(e.keyCode == 87) {
             keyW = false;
@@ -65,38 +101,73 @@
         }
     }
 
+
+    //Draw Player object and Ball object functions
     function drawPlayer() {
-        ctx.beginPath();
-        ctx.arc(px,py, 30, 0 , Math.PI*2);
-        ctx.fillStyle = "#FA5858";
-        ctx.fill();
-        ctx.closePath();
+
+        //Player Death animation
+        if (animTimer > 0 && gameOver === true ) {
+            if (animTimer > 30) {
+                ctx.drawImage(pDefault,8, 0, 8, 8, px, py, 50, 50);
+            }
+            if (animTimer < 30 && animTimer > 19) {
+                ctx.drawImage(pDefault,16, 0, 8, 8, px, py, 50, 50);
+            }
+            if (animTimer < 20 && animTimer > 9) {
+                ctx.drawImage(pDefault,24, 0, 8, 8, px, py, 50, 50);
+            }
+            if (animTimer < 10) {
+                ctx.drawImage(pDefault,0, 8, 8, 8, px, py, 50, 50);
+            }
+
+            animTimer = animTimer - 1;
+
+        }
+        if (gameOver === false) {
+            ctx.drawImage(pDefault,0, 0, 8, 8, px, py, 50, 50);
+        }
+        else {}
     }
 
     function drawBall() {
-        ctx.beginPath();
-        ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-        ctx.fillStyle = "#0095DD";
-        ctx.fill();
-        ctx.closePath();
+        ctx.drawImage(pDefault,0, 32, 8, -8, x, y, 50, 50);
     }
 
+    //Main Draw function
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawBall();
         drawPlayer();
 
-        if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+
+        //Spawn Ball
+        if(ballShoot === true) {
+            drawBall();
+            x += dx;
+            y += dy;
+        }
+        if(ballShoot === false) {
+            x = canvas.width/2;
+            y = canvas.height-30;
+        }
+
+
+        //If Ball hits edge of canvas, change direction by 90 degrees
+        if(x + dx > canvas.width-(ballRadius/2) || x + dx < ballRadius) {
             dx = -dx;
         }
         if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
             dy = -dy;
         }
-        else if(Math.abs(x - px) <= 35 && Math.abs(y - py) <= 35) {
-            alert("GAME OVER");
-            document.location.reload();
+        if(Math.abs(x - px) <= 35 && Math.abs(y - py) <= 35) {
+          console.log(">..HIT");
+          animTimer = 40;
+          ballShoot = false;
+          gameOver = true;
+
         }
 
+
+        //If player is within bounds of canvas, move according to key handlers
         if(keyD && px < canvas.width-30) {
             px += 1;
         }
@@ -112,17 +183,19 @@
             py += 1;
         }
 
-        x += dx;
-        y += dy;
 
-        if(score < 10000001) {
+        //Score generator
+        if(score < 10000001 && gameOver === false) {
             score += 1;
 
+            //Display score
             document.getElementById("scoreboard").innerHTML = "Score: " + score;
         }
     }
 
-    setInterval(draw, 5);
+    //Call main draw function via setInterval()
+        setInterval(draw, 5);
+
 
 </script>
 
