@@ -36,3 +36,10 @@ p {
   padding-top: 5px;
   color: ghostwhite;
 }
+
+#leaderboard {
+  background-color: darkslateblue;
+  color: ghostwhite;
+
+  border: 1px solid ghostwhite;
+}
