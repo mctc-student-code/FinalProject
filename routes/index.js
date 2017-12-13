@@ -42,7 +42,11 @@ router.get('/mpclient', function(req, res, next) {
 
 /* GET leaderboard */
 router.get('/lb', function(req, res, next) {
-  res.render('leaderboard', { title: 'Pixel_Ball Leaderboard'});
+    Score.find().sort().limit(20).then((docs) => {
+        res.render('leaderboard', { title: 'Pixel_Ball Leaderboard', scores : docs});
+    }).catch(err) => {
+        next(err);
+    })
 });
 
 module.exports = router;

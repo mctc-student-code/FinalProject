@@ -13,6 +13,7 @@
     <p id="scoreboard"></p>
     <form method="POST" action="/addScore">
         <input name="name" minlength="3" maxlength="3" placeholder="Name" required/>
+        <input type="hidden" id="scoreNum" name="num"/>
         <input type="submit" value="Submit Score"/>
     </form>
 </div>
@@ -224,6 +225,7 @@
 
             //Display score in HTML
             document.getElementById("scoreboard").innerHTML = "Score: " + score;
+            document.getElementById("scoreNum").value = score;
         }
     }
 

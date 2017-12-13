@@ -11,14 +11,13 @@ var nameSchema = new mongoose.Schema({
         //Name must be three characters
         validate: {
             validator: function (n) {
-                return n.length !== 3;
+                return n.length == 3;
             },
             message: 'Must be three letter name'
         }
     },
     num: {
         type: Number,
-        value: 100,
         required: true
     }
 });
