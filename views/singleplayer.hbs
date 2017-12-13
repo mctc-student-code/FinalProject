@@ -12,8 +12,8 @@
 <div class="score-counter">
     <p id="scoreboard"></p>
     <form method="POST" action="/addScore">
-        Name: <input name="name" required/>
-        <br><input type="submit" value="Submit"/>
+        <input name="name" minlength="3" maxlength="3" placeholder="Name" required/>
+        <input type="submit" value="Submit"/>
     </form>
 </div>
 
@@ -22,7 +22,6 @@
 <p id="controlshelp">Controls: W = Up, A = Left, S = Down, D = Right</p>
 
 <script>
-
     //function to deal with canvas anti-aliasing
     function setpixelated(context) {
         context['imageSmoothingEnabled'] = false;       /* standard */
@@ -217,7 +216,6 @@
 
     //Call main draw function via setInterval()
     setInterval(draw, 5);
-
 
 </script>
 

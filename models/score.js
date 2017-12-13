@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
-var sp = require('../views/singleplayer.hbs');
 
 /* Create new schema for name */
 
@@ -19,7 +18,7 @@ var nameSchema = new mongoose.Schema({
     },
     num: {
         type: Number,
-        value: sp.score,
+        value: 100,
         required: true
     }
 });

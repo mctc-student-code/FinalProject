@@ -14,6 +14,7 @@ router.post('/addScore', function(req, res, next) {
     newscore.save()
         .then( (doc) => {
           console.log(doc);
+          res.redirect('/');
     })
     .catch( (err) => {
 
