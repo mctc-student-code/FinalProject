@@ -17,13 +17,22 @@ h2 {
   color: ghostwhite;
 }
 
+p {
+  text-align: center;
+}
+
 #scoreboard {
   text-align: center;
-  padding-top: 20px;
+  padding-bottom: 20px;
   color: tomato;
 }
 
 .mmenuButton {
   text-align: center;
   padding: 20px;
+}
+
+#controlshelp {
+  padding-top: 5px;
+  color: ghostwhite;
 }
