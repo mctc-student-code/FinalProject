@@ -9,11 +9,11 @@
 
 <h2><a href="/"><img src="/images/logo.png" alt="PIXEL_BALL" align="center" width="300"></a></h2>
 
-<div class="score-counter">
+<div class="score-counter" align="center">
     <p id="scoreboard"></p>
     <form method="POST" action="/addScore">
         <input name="name" minlength="3" maxlength="3" placeholder="Name" required/>
-        <input type="submit" value="Submit"/>
+        <input type="submit" value="Submit Score"/>
     </form>
 </div>
 
@@ -36,21 +36,26 @@
     var ctx = canvas.getContext("2d");
     setpixelated(ctx);
 
+    //game over and animation timers
     var gameOver = false;
     var animTimer = 0;
     var bonusTimer = 0;
 
+    //canvas location variables
     var ballRadius = 10;
     var x = canvas.width/2;
     var y = canvas.height-30;
     var dx = -3;
     var dy = 3;
 
+    //score variable
     var score = 0;
 
+    //player location
     var px = canvas.width/2;
     var py = canvas.height/2;
 
+    //key handlers
     var keyW = false;
     var keyA = false;
     var keyS = false;
@@ -83,6 +88,7 @@
         if(e.keyCode == 68) {
             keyD = true;
         }
+        //if spacebar is pressed after game ends, reload page
         if(e.keyCode == 32) {
             if( gameOver === true) {
                 document.location.reload();
@@ -111,6 +117,7 @@
     function drawPlayer() {
 
         //Player Death animation
+        //if game over, play death animation at player location
         if (animTimer > 0 && gameOver === true ) {
             if (animTimer > 30) {
                 ctx.drawImage(pDefault,8, 0, 8, 8, px, py, 50, 50);
@@ -142,6 +149,7 @@
         else {}
     }
 
+    //draw ball
     function drawBall() {
         ctx.drawImage(pDefault,0, 32, 8, -8, x, y, 50, 50);
     }
@@ -158,6 +166,7 @@
             x += dx;
             y += dy;
         }
+        //if ball is removed, reset start location of ball
         if(ballShoot === false) {
             x = canvas.width/2;
             y = canvas.height-30;
@@ -171,17 +180,21 @@
         if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
             dy = -dy;
         }
+
+        //If ball and player collide, game over
         if(Math.abs(x - px) <= 35 && Math.abs(y - py) <= 35) {
             animTimer = 40;
             ballShoot = false;
             gameOver = true;
 
         }
+        //If ball comes close to player, give score boost
         if(Math.abs(x - px) >= 36 && Math.abs(y - py) >= 36 && Math.abs(x - px) <= 50 && Math.abs(y - py) <= 50) {
             bonusTimer += 20;
             score += 200;
         }
 
+        //if game over, display game over graphic after death animation
         if (gameOver === true && animTimer === 0) {
 
             ctx.drawImage(gOverText, ((canvas.width/2)-320), ((canvas.height/2)-100))
@@ -205,11 +218,11 @@
         }
 
 
-        //Score generator
+        //Score counter
         if(score < 10000001 && gameOver === false) {
             score += 1;
 
-            //Display score
+            //Display score in HTML
             document.getElementById("scoreboard").innerHTML = "Score: " + score;
         }
     }

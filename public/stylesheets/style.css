@@ -43,3 +43,7 @@ p {
 
   border: 1px solid ghostwhite;
 }
+
+.score-counter {
+  padding-bottom: 5px;
+}
