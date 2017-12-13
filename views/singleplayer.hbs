@@ -33,6 +33,7 @@
 
     var gameOver = false;
     var animTimer = 0;
+    var bonusTimer = 0;
 
     var ballRadius = 10;
     var x = canvas.width/2;
@@ -55,6 +56,8 @@
     //create texture image objects
     var pDefault = new Image();
     pDefault.src = "/images/textures.png";
+    var gOverText = new Image();
+    gOverText.src = "/images/gameover.png";
 
 
     //Keyboard Event Handlers
@@ -121,7 +124,15 @@
 
         }
         if (gameOver === false) {
-            ctx.drawImage(pDefault,0, 0, 8, 8, px, py, 50, 50);
+
+            if(bonusTimer === 0) {
+                ctx.drawImage(pDefault, 0, 0, 8, 8, px, py, 50, 50);
+            }
+            else if(bonusTimer > 0) {
+                ctx.drawImage(pDefault, 8, 8, 8, 8, px, py, 50, 50);
+
+                bonusTimer = bonusTimer - 1;
+            }
         }
         else {}
     }
@@ -161,7 +172,16 @@
             gameOver = true;
 
         }
+        if(Math.abs(x - px) >= 36 && Math.abs(y - py) >= 36 && Math.abs(x - px) <= 50 && Math.abs(y - py) <= 50) {
+            bonusTimer += 20;
+            score += 200;
+        }
 
+        if (gameOver === true && animTimer === 0) {
+
+            ctx.drawImage(gOverText, ((canvas.width/2)-320), ((canvas.height/2)-100))
+
+        }
 
         //If player is within bounds of canvas, move according to key handlers
         if(keyD && px < canvas.width-30) {
