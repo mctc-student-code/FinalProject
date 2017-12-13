@@ -12,7 +12,11 @@
 <h2>LEADERBOARD</h2>
 
 <div id="leaderboard">
-
+{{#each birds}}
+        <p>{{this.name}}, {{this.num}}</p>
+{{else}}
+    <p>No scores in the database.</p>
+{{/each}}
 </div>
 
 </body>
